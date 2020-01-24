@@ -1,0 +1,13 @@
+# Only alert if there were more than 5 errors in the last 5 minutes per client IP and at least 2 or more client IPs were involved
+#
+# The comparison for number of results (client ips) will be in the alert definition itself
+
+AzureDiagnostics
+
+| where Resource == 'FRONTDOOR'
+
+| where httpStatusCode_d > 500
+
+| summarize count() by clientIp_s
+
+| where _count >=5
